@@ -244,7 +244,7 @@ lprs['Color'] = lprs['Timestamp'].apply(get_color)
 lprs.head()
 ```
 
-Now we can check out another license plate, this time with our spiffy color-coding.  This one happens to be the car that the city issues to the Fire Chief.
+Now we can check out another license plate, this time with our spiffy color-coding.  This one happens to be the car that the city issues to the Fire Chief.  At the time this was [Teresa Deloach Reed](https://localwiki.org/oakland/Teresa_Deloach_Reed).
 
 ```{python}
 fire_chief = lprs[lprs['Plate'] == '1328354']
