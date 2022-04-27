@@ -1,0 +1,57 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: Lesson at LIS
+author: Matthew Brett
+logo: logo.png
+description: >-
+  Text for lesson at LIS
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: auto
+  timeout: 120
+
+exclude_patterns:
+  - oakland-plates/README.md
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_documents:
+    targetname: book.tex
+
+# Add a bibtex file so that we can create citations
+bibtex_bibfiles:
+  - references.bib
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/matthew-brett/lis-lesson  # Online location of your book
+  branch: main  # Which branch of the repository should be used when creating links (optional)
+
+launch_buttons:
+  # The interface interactive links will activate ["classic", "jupyterlab"]
+  notebook_interface: "classic"
+  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+  jupyterhub_url: "https://lishub.dynevor.org"
+  # The URL of the BinderHub (e.g., https://mybinder.org)
+  binderhub_url: "https://mybinder.org"
+  # The URL of Google Colab (e.g., https://colab.research.google.com)
+  colab_url: "https://colab.research.google.com"
+  # Deepnote
+  deepnote_url: "https://deepnote.com"
+  thebe: true
+
+sphinx:
+  config:
+    nb_custom_formats:
+      .Rmd:
+        - jupytext.reads
+        - fmt: Rmd
+
+# Add GitHub buttons to your book
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  use_issues_button: true
+  use_repository_button: true
