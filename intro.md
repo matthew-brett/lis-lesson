@@ -16,7 +16,8 @@ The lesson emphasizes several key things about the practice of data science.
 * The fact that I could use and adapt this fine piece of exposition is thanks
   to a culture of sharing teaching materials that is a feature of the data
   science movement, in which Berkeley has been leading, although with [some
-  imperfections](https://github.com/data-8/textbook/issues/36).
+  imperfections](https://github.com/data-8/textbook/issues/36).  We really are
+  standing on the shoulders of giants.
 
 Now see the [Oakland license plate](oakland-plates/oakland_plates.Rmd)
 notebook.
