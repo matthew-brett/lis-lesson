@@ -6,5 +6,5 @@ ghp-import
 # Notebook etc requirements
 -r requirements.txt
 
-# For nicer sidebars
-# sphinx-book-theme>=0.2
+# To escape URL for older JupyterHub
+git+https://github.com/matthew-brett/sphinx-book-theme.git@escape-colon
