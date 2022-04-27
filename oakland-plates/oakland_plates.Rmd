@@ -257,7 +257,7 @@ for i, row in fire_chief.iterrows():
         [row['Latitude'], row['Longditude']],
         popup=row['Timestamp'],
         icon=folium.Icon(color=row['Color'], icon='camera', prefix='fa')
-    ).add_to(mp)
+    ).add_to(oak_map)
 oak_map
 ```
 
