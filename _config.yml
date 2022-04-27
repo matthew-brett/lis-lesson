@@ -15,6 +15,7 @@ execute:
 
 exclude_patterns:
   - oakland-plates/README.md
+  - _notes/gcloud_setup.md
 
 # Define the name of the latex output file for PDF builds
 latex:
