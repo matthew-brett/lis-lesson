@@ -215,7 +215,7 @@ for i, row in jean_quan.iterrows():
     folium.Marker(
         [row['Latitude'], row['Longditude']],
         popup=row['Timestamp'],
-        icon=folium.Icon(color=row['Color'], icon='camera', prefix='fa')
+        icon=folium.Icon(icon='camera', prefix='fa')
     ).add_to(oak_map)
 oak_map
 ```
@@ -286,7 +286,8 @@ What can we tell from this?  Looks to me like this person lives on International
 We can look at another:
 
 ```{python}
-map_plate('6UZA652', zoom_start=13)
+oak_map = make_oakland_map(zoom_start=13)
+map_plate(oak_map, '6UZA652')
 ```
 
 What can we learn from this map?  First, it's pretty easy to guess where this person lives: 16th and International, or pretty near there.  And then we can see them spending some nights and a weekend near Laney College.  Did they have an apartment there briefly?  A relationship with someone who lived there?
