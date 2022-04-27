@@ -32,7 +32,7 @@ repository:
 
 launch_buttons:
   # The interface interactive links will activate ["classic", "jupyterlab"]
-  notebook_interface: "jupyterlab"
+  notebook_interface: "classic"
   # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
   jupyterhub_url: "https://lishub.odsti.org"
 
