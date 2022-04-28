@@ -1,8 +1,5 @@
 # Requirements for notebooks / Binderhub
 matplotlib
-scipy
-ipython
 jupytext
-jupyter-book
 pandas
 folium

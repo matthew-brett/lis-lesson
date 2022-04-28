@@ -1,10 +1,13 @@
 # Build requirements
 
-# To allow static build / upload
-ghp-import
-
 # Notebook etc requirements
 -r requirements.txt
 
+# Building book
+jupyter-book
+
 # To escape URL for older JupyterHub
 git+https://github.com/matthew-brett/sphinx-book-theme.git@escape-colon
+
+# To allow static build / upload
+ghp-import
