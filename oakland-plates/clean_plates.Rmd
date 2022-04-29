@@ -1,0 +1,120 @@
+---
+jupyter:
+  jupytext:
+    notebook_metadata_filter: all,-language_info
+    split_at_heading: true
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.13.7
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+---
+
+# Cleaning the automatic license plate reader data
+
+```{python}
+# Listing files and other utilities.
+import os
+# Getting filenames with wildcards like "*"
+from glob import glob
+
+# Data frame library.
+import pandas as pd
+```
+
+## Data collection
+
+
+First, we'll gather the data.  It turns out the data is publicly available on
+the Oakland public records site.
+
+I've downloaded all the files I could find at the [Oaklandca.gov data
+website](https://data.oaklandca.gov/) with [the search "license
+plate"](https://data.oaklandca.gov/browse?q=license%20plate). I found 15
+files, but two contained data that was already available in other files. The
+remaining 13 files are in the `./downloads` directory.
+
+```{python}
+# Get the filenames of the downloaded CSV files.
+csv_fnames = glob('downloads/*.csv')
+csv_fnames
+```
+
+We load all the CSV files as Pandas data frames.  Notice the slight
+differences in the column names and number of columns in the CSV files.
+
+```{python}
+# Load CSV files as data frames.
+all_data_frames = []
+for csv_fname in csv_fnames:
+    df = pd.read_csv(csv_fname)
+    all_data_frames.append(df)
+```
+
+We need to do some cleanup.  There is a data frame with lower case names,
+where the rest have capitalized names.  Some data frames have extra columns we
+are not interested in.
+
+```{python}
+# Clean up the loaded data frames
+fixed_data_frames = []
+desired_columns = ['red_vrm', 'red_timestamp', 'location 1']
+for df in all_data_frames:
+    # Set all column names to be lower case.
+    df.columns = [col.lower() for col in df]
+    # Select only the columns of interest
+    fixed_data_frames.append(df[desired_columns])
+```
+
+Now the data frames are clean, concatenate them into one data frame, and drop any duplicate rows.
+
+```{python}
+# Concatenate the data frames
+lprs = pd.concat(fixed_data_frames)
+# Drop duplicate rows
+lprs = lprs.drop_duplicates()
+lprs.head()
+```
+
+The "location 1" column is text:
+
+```{python}
+lprs['location 1'].iloc[0]
+```
+
+In order to use these data on maps, we need to convert the text here into two
+columns, each having floating point values, one for "Longitude" and the other
+for "Latitude".
+
+```{python}
+# Drop the parentheses around the strings.
+no_parens = lprs['location 1'].str[1:-1]
+# Split the strings into two columns, convert to floating point.
+lat_lon = no_parens.str.split(',', expand=True).astype(float)
+# Rename columns
+lat_lon.columns = ['Latitude', 'Longitude']
+lat_lon.head()
+```
+
+The "red_timestamp" column is also text:
+
+```{python}
+lprs['red_timestamp'].iloc[0]
+```
+
+We need to convert this to a specific representation of date and time:
+
+```{python}
+timestamps = pd.to_datetime(lprs['red_timestamps'])
+```
+
+Now stack these columns together:
+
+```{python}
+all_lprs = pd.concat([lprs['red_vrm'], timestamps, lat_lon], axis=1)
+```
+

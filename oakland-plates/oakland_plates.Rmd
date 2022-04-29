@@ -198,7 +198,7 @@ footwork, to put these two extracted values into the data
 frame as their own columns.
 
 ```{python}
-lprs['Latitude'], lprs['Longditude'] = zip(*lprs['Location'].apply(to_lat_lon))
+lprs['Latitude'], lprs['Longitude'] = zip(*lprs['Location'].apply(to_lat_lon))
 lprs.head()
 ```
 
@@ -213,9 +213,9 @@ jean_quan
 oak_map = make_oakland_map(zoom_start=15)
 for i, row in jean_quan.iterrows():
     folium.Marker(
-        [row['Latitude'], row['Longditude']],
+        [row['Latitude'], row['Longitude']],
         popup=row['Timestamp'],
-        icon=folium.Icon(icon='camera', prefix='fa')
+        icon=folium.Icon(icon='car', prefix='fa')
     ).add_to(oak_map)
 oak_map
 ```
@@ -254,9 +254,9 @@ fire_chief
 oak_map = make_oakland_map(zoom_start=12)
 for i, row in fire_chief.iterrows():
     folium.Marker(
-        [row['Latitude'], row['Longditude']],
+        [row['Latitude'], row['Longitude']],
         popup=row['Timestamp'],
-        icon=folium.Icon(color=row['Color'], icon='camera', prefix='fa')
+        icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
     ).add_to(oak_map)
 oak_map
 ```
@@ -271,9 +271,9 @@ def map_plate(mp, plate):
     sightings = lprs[lprs['Plate'] == plate]
     for i, row in sightings.iterrows():
         folium.Marker(
-            [row['Latitude'], row['Longditude']],
+            [row['Latitude'], row['Longitude']],
             popup=row['Timestamp'],
-            icon=folium.Icon(color=row['Color'], icon='camera', prefix='fa')
+            icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
         ).add_to(mp)
     return mp
 
