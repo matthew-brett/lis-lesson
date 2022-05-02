@@ -4,5 +4,6 @@
 format: jb-book
 root: intro
 chapters:
-- file: oakland-plates/oakland_plates
+- file: oakland-plates/background
 - file: oakland-plates/clean_plates
+- file: oakland-plates/oakland_plates

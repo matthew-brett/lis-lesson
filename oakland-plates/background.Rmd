@@ -1,0 +1,134 @@
+---
+jupyter:
+  jupytext:
+    notebook_metadata_filter: all,-language_info
+    split_at_heading: true
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.13.7
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+---
+
+# Background
+
+```{python}
+# Library for plotting maps
+import folium
+```
+
+## Oakland
+
+Oakland is just across the Bay from San Francisco, and a few miles from Berkeley.  Here's a map, marking the City Hall and the Police Department (for reasons we will come to soon):
+
+```{python}
+# A map of Oakland and the Bay Area.
+oak_map = folium.Map(location=[37.8, -122.4],
+tiles='OpenStreetMap',
+zoom_start=10)
+
+# Mark Police Department
+OAK_PD_COORDS = (37.79926910804871, -122.27497697421084)
+folium.Marker(OAK_PD_COORDS,
+              popup='Police Dept',
+              icon=folium.Icon(color='lightgray', icon='info-sign')
+             ).add_to(oak_map)
+
+
+# Mark City Hall
+OAK_CITY_HALL_COORDS = (37.805498393033204, -122.2725551318817)
+folium.Marker(OAK_CITY_HALL_COORDS,
+              popup='City Hall',
+              icon=folium.Icon(color='lightgray', icon='info-sign')
+             ).add_to(oak_map)
+
+# Show the map
+oak_map
+```
+
+## Automatic License Plate Recognition
+
+The huge majority of vehicles have [vehicle registration
+plates](https://en.wikipedia.org/wiki/Vehicle_registration_plate).
+
+The UK call these "number plates", and the US use "license plates".
+
+Oakland, like many other cities in the US, and the UK, have multiple [Automatic
+License Plate
+Recognition](https://en.wikipedia.org/wiki/Automatic_number-plate_recognition)
+cameras, constantly feeding automated read license plates with location data to
+police databases.
+
+The UK calls this Automatic Number Plate Recognition (ANPR), and the [UK
+national police
+website](https://www.police.uk/advice/advice-and-information/rs/road-safety/automatic-number-plate-recognition-anpr/)
+tells us:
+
+> At present ANPR cameras nationally, submit on average around 60 million ANPR
+> ‘read’ records to national ANPR systems daily.
+
+The US abbreviation is ALPR.
+
+We will concentrate on the ALPR data from the City of Oakland.
+
+## Who sees these data?
+
+[Oakland Privacy](https://oaklandprivacy.org) is a:
+
+> citizens’ coalition that works regionally to defend the right to
+> privacy and enhance public transparency and oversight regarding the use of
+> surveillance techniques and equipment.
+
+It has a page on [who's looking at your license plate
+data](https://oaklandprivacy.org/whos-looking-at-your-license-plate-data).
+
+71 agencies accessed the license plate database between February and March
+2021.  Apart from police departments and sheriffs' offices, these included:
+
+  -------------------------------         -----------
+  Agency                                  Count
+  -------------------------------         -----------
+  FBI                                     72
+  US Dept Agriculture Inspector General   51
+  National Park Service                   18
+  California Dept of Motor Vehicles       14
+  US Postal Inspection Service            4
+  -------------------------------         -----------
+
+## Who should see these data?
+
+The [Electronic Frontier Foundation](https://www.eff.org) (EFF) has taken an
+interest in these data.
+
+Quoting from the link below:
+
+> EFF is on a mission to use transparency as a counterbalance to mass
+> surveillance.
+
+The EFF analyzed the Oakland
+data](https://www.eff.org/deeplinks/2015/01/what-we-learned-oakland-raw-alpr-data).
+There are a number of interesting maps there.  For now, let's just note this
+quote from that article:
+
+> The [law-enforcement agencies refusing to release ALPR data] also argue the
+> public interest in maintaining secrecy in ALPR data outweighs the public
+> interest in learning how and where ALPR systems are being used.
+>
+> The rub here is that law enforcement agencies like those in LA, San Diego,
+> and Oakland aren’t using ALPR for targeted investigations, but rather
+> running a dragnet on all drivers in their jurisdictions.
+
+The EFF argue that we will only know if that is the case, if we can see the data.
+
+But — what do you think?  Who should be able to see the data?  Should the data be public?
+
+## Reality check
+
+As usual with data science, it becomes easier to think about the consequences of these data and data access, with a real example to work with.
+
+So, we will get the Oakland data and do some analysis. See [cleaning the
+data](clean_plates.Rmd).

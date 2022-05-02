@@ -35,7 +35,7 @@ the Oakland public records site.
 I've downloaded all the files I could find at the [Oaklandca.gov data
 website](https://data.oaklandca.gov/) with [the search "license
 plate"](https://data.oaklandca.gov/browse?q=license%20plate). I found 15
-files, but two contained data that was already available in other files. The
+files, but two contained data that were already available in other files. The
 remaining 13 files are in the `./downloads` directory.
 
 ```{python}
@@ -100,21 +100,24 @@ lat_lon.columns = ['Latitude', 'Longitude']
 lat_lon.head()
 ```
 
-The "red_timestamp" column is also text:
+Stack these columns together into a single data frame:
 
 ```{python}
-lprs['red_timestamp'].iloc[0]
+all_lprs = pd.concat([lprs[['red_vrm', 'red_timestamp']], lat_lon], axis=1)
+all_lprs.head()
 ```
-
-We need to convert this to a specific representation of date and time:
+Rename the first two columns:
 
 ```{python}
-timestamps = pd.to_datetime(lprs['red_timestamps'])
+all_lprs = all_lprs.rename(columns={'red_vrm': 'Plate', 'red_timestamp': 'Timestamp'})
+all_lprs.head()
 ```
 
-Now stack these columns together:
+Save to disk:
 
 ```{python}
-all_lprs = pd.concat([lprs['red_vrm'], timestamps, lat_lon], axis=1)
+# Save without our uninformative row labels.
+all_lprs.to_csv('all_lprs.csv', index=None)
 ```
 
+Now see [analyzing the plates](oakland_plates.Rmd).

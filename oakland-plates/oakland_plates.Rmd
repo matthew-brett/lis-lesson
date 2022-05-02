@@ -7,243 +7,151 @@ jupyter:
       extension: .Rmd
       format_name: rmarkdown
       format_version: '1.2'
-      jupytext_version: 1.13.8
+      jupytext_version: 1.13.7
   kernelspec:
     display_name: Python 3
     language: python
     name: python3
 ---
 
-# License plates
+# Oakland license plates
 
 ```{python}
-# Listing files and other utilities.
-import os
-# Getting filenames with wildcards like "*"
-from glob import glob
-
 # The array library.
 import numpy as np
 # Data frame library.
 import pandas as pd
-
-# Library for plotting maps
+# Library for plotting maps.
 import folium
 ```
 
-## The back story
+See [background](background.Rmd) for the background to this notebook.
 
-Oakland is just across the Bay from San Francisco, and a few miles from Berkeley.  Here's a map:
-
-```{python}
-# A map of the Bay Area
-folium.Map(location=[37.8, -122.4],
-           tiles='OpenStreetMap',
-           zoom_start=10)
-```
-
-Before we go on, we need a little more background on what's where in Oakland:
-
-```{python}
-# Some relevant coordinates.
-pd_coords = (37.79926910804871, -122.27497697421084)
-city_hall_coords = (37.805498393033204, -122.2725551318817)
-# Oakland map
-oak_map = folium.Map(location=pd_coords,
-                     tiles='OpenStreetMap',
-                     zoom_start=13)
-# Mark Police Department and City Hall.
-folium.Marker(pd_coords,
-              popup='Police Dept',
-              icon=folium.Icon(color='lightgray', icon='info-sign')
-             ).add_to(oak_map)
-folium.Marker(city_hall_coords,
-              popup='City Hall',
-              icon=folium.Icon(color='lightgray', icon='info-sign')
-             ).add_to(oak_map)
-oak_map
-```
-
-```{python}
-def make_oakland_map(zoom_start=13):
-    oak_map = folium.Map(location=pd_coords,
-                         tiles='OpenStreetMap',
-                         zoom_start=zoom_start)
-    # Mark Police Department and City Hall.
-    folium.Marker(pd_coords,
-                  popup='Police Dept',
-                  icon=folium.Icon(color='lightgray', icon='info-sign')
-                 ).add_to(oak_map)
-    folium.Marker(city_hall_coords,
-                  popup='City Hall',
-                  icon=folium.Icon(color='lightgray', icon='info-sign')
-                 ).add_to(oak_map)
-    return oak_map
-
-make_oakland_map()
-```
-
-```{python}
-make_oakland_map(zoom_start=15)
-```
 
 We're going to look at some data collected by the Oakland
 Police Department. They have automated license plate readers on
 their police cars, and they've built up a database of license
-plates that they've seen — and where and when they saw each
-one.
-
-## Data collection
+plates that they've seen — and where and when they saw each one.
 
 
-First, we'll gather the data.  It turns out the data is
-publicly available on the Oakland public records site.
+## The data
 
-I've downloaded all the files I could find at the [Oaklandca.gov data
-website](https://data.oaklandca.gov/) with [the search "license
-plate"](https://data.oaklandca.gov/browse?q=license%20plate). I found 15
-files, but two contained data that was already available in other files. The
-remaining 13 files are in the `./downloads` directory.
 
-```{python}
-# Get the filenames of the downloaded CSV files.
-csv_fnames = glob('downloads/*.csv')
-csv_fnames
-```
+We load the cleaned license plate data from the file we saved earlier.
 
-We load all the CSV files as Pandas data frames:
+Notice that we are telling Pandas that the `Timestamp` column has a date/time
+values. Otherwise, Pandas will load these values as strings.  We could have
+done that, and converted them later, but loading them this way saves some time.
+
+Make sure you have run the [data preparation notebook](clean_plates.Rmd) before
+you run the cell below.
+
 
 ```{python}
-# Load CSV files as data frames.
-all_data_frames = []
-for csv_fname in csv_fnames:
-    df = pd.read_csv(csv_fname)
-    all_data_frames.append(df)
-```
-
-We need to do some cleanup.  There is a data frame with lower case names, where the rest have capitalized names.  Some data frames have extra columns we are not interested in.
-
-```{python}
-# Clean up the loaded data frames
-fixed_data_frames = []
-desired_columns = ['red_vrm', 'red_timestamp', 'location 1']
-for df in all_data_frames:
-    # Set all column names to be lower case.
-    df.columns = [col.lower() for col in df]
-    # Select only the columns of interest
-    fixed_data_frames.append(df[desired_columns])
-```
-
-Now the data frames are clean, concatenate them into one data frame, and drop any duplicate rows.
-
-```{python}
-# Concatenate the data frames
-lprs = pd.concat(fixed_data_frames)
-# Drop duplicate rows
-lprs = lprs.drop_duplicates()
-lprs.head()
-```
-
-Let's start by renaming the columns, and then take a look at
-it.
-
-```{python}
-lprs.columns = ['Plate', 'Timestamp', 'Location']
+# Load all license plate data.
+# This will probably take about 30 seconds, depending on your machine.
+lprs = pd.read_csv('all_lprs.csv', parse_dates=['Timestamp'])
 lprs
 ```
 
-Phew, that's a lot of data: we can see about 2.7 million
-license plate reads here.
+**Note** If you get a `FileNotFound` error, check you have run the [data
+                                                                    preparation
+                                                                    notebook](clean_plates.Rmd).
+It writes out the data file that the you are reading above.
 
-Let's start by seeing what can be learned about someone, using this data -- assuming you know their license plate.
+Notice that we have about 2.7 million license plate reads.
+
+Let's start by seeing what can be learned about someone, using this data —
+assuming you know their license plate
+
 
 ## Searching for Individuals
 
 
 As a warmup, we'll take a look at ex-Mayor [Jean
-Quan](https://en.wikipedia.org/wiki/Jean_Quan)'s car, and where
-it has been seen.  Her license plate number is 6FCH845. (How
-did I learn that?  Turns out she was in the news for getting
-\$1000 of parking tickets, and [the news
+Quan](https://en.wikipedia.org/wiki/Jean_Quan)'s car, and where it has been
+seen.  Her license plate number is 6FCH845. (How did I learn that?  Turns out
+she was in the news for getting \$1000 of parking tickets, and [the news
 article](http://www.sfgate.com/bayarea/matier-ross/article/Jean-Quan-Oakland-s-new-mayor-gets-car-booted-3164530.php)
-included a picture of her car, with the license plate visible.
-You'd be amazed by what's out there on the Internet...)
-
-```{python}
-lprs[lprs['Plate'] == '6FCH845']
-```
-
-OK, so her car shows up 6 times in this data set.  However, it's hard to make sense of those coordinates.  I don't know about you, but I can't read GPS so well.
-
-So, let's work out a way to show where her car has been seen on a map.  We'll need to extract the latitude and longitude, as the data isn't quite in the format that the mapping software expects: the mapping software expects the latitude to be in one column and the longitude in another.  Let's write some Python code to do that, by splitting the Location string into two pieces: the stuff before the comma (the latitude) and the stuff after (the longitude).
-
-```{python}
-def to_lat_lon(val):
-    # Drop the parentheses
-    val = val[1:-1]
-    # Split at the comma.
-    before, after = val.split(',')
-    # Return the values.
-    return float(before), float(after)
-```
-
-Let's test it to make sure it works correctly.
-
-```{python}
-to_lat_lon('(37.797558, -122.26935)')
-```
-
-Now we use the data frame's `apply` method, and a bit of fancy
-footwork, to put these two extracted values into the data
-frame as their own columns.
-
-```{python}
-lprs['Latitude'], lprs['Longitude'] = zip(*lprs['Location'].apply(to_lat_lon))
-lprs.head()
-```
-
-And at last, we can draw a map with a marker everywhere that her car has been seen.
+included a picture of her car, with the license plate visible. You'd be amazed
+by what's out there on the Internet...)
 
 ```{python}
 jean_quan = lprs[lprs['Plate'] == '6FCH845']
 jean_quan
 ```
 
+OK, so her car shows up 6 times in this data set.  Let's put those on a map, to
+see if we can learn anything from these reads.
+
+For background, we will also put a marker on the Oakland Police Department and
+the Oakland City Hall:
+
+
 ```{python}
-oak_map = make_oakland_map(zoom_start=15)
+OAK_PD_COORDS = (37.79926910804871, -122.27497697421084)
+OAK_CITY_HALL_COORDS = (37.805498393033204, -122.2725551318817)
+
+# Map of Oakland, centered on the Police Department
+oak_map = folium.Map(location=OAK_PD_COORDS,
+                     tiles='OpenStreetMap',
+                     zoom_start=15)
+# Jean Quan's reads.
 for i, row in jean_quan.iterrows():
     folium.Marker(
         [row['Latitude'], row['Longitude']],
         popup=row['Timestamp'],
         icon=folium.Icon(icon='car', prefix='fa')
     ).add_to(oak_map)
+
+# Police Department
+folium.Marker(OAK_PD_COORDS,
+              popup='Police Dept',
+              icon=folium.Icon(color='lightgray', icon='info-sign')
+             ).add_to(oak_map)
+
+
+# City Hall
+folium.Marker(OAK_CITY_HALL_COORDS,
+              popup='City Hall',
+              icon=folium.Icon(color='lightgray', icon='info-sign')
+             ).add_to(oak_map)
+
+# Show the map
 oak_map
 ```
 
 OK, so it's been seen near the Oakland police department.  This should make you suspect we might be getting a bit of a biased sample.  Why might the Oakland PD be the most common place where her car is seen?  Can you come up with a plausible explanation for this?
 
+
 ## Poking around
 
 
-Let's try another.  And let's see if we can make the map a little more fancy.  It'd be nice to distinguish between license plate reads that are seen during the daytime (on a weekday), vs the evening (on a weekday), vs on a weekend.  So we'll color-code the markers.  To do this, we'll write some Python code to analyze the Timestamp and choose an appropriate color.
+Let's try another.  And let's see if we can make the map a little more fancy.
+It'd be nice to distinguish between license plate reads that are seen during
+the daytime (on a weekday), vs the evening (on a weekday), vs on a weekend.  So
+we'll color-code the markers.  To do this, we'll write some Python code to
+analyze the 'Timestamp' and choose an appropriate color.
 
 ```{python}
-import datetime
-
 def get_color(ts):
-    t = datetime.datetime.strptime(ts, '%m/%d/%Y %I:%M:%S %p')
-    if t.weekday() >= 6:
+    if ts.weekday() >= 6:
         return 'green' # Weekend
-    elif t.hour >= 6 and t.hour <= 17:
+    elif ts.hour >= 6 and ts.hour <= 17:
         return 'blue' # Weekday daytime
     else:
         return 'red' # Weekday evening
 
+
+# Apply the function to the Timestamp column, make new column.
 lprs['Color'] = lprs['Timestamp'].apply(get_color)
 lprs.head()
 ```
 
-Now we can check out another license plate, this time with our spiffy color-coding.  This one happens to be the car that the city issues to the Fire Chief.  At the time this was [Teresa Deloach Reed](https://localwiki.org/oakland/Teresa_Deloach_Reed).
+Now we can check out another license plate, this time with our spiffy
+color-coding.  This one happens to be the car that the city issues to the Fire
+Chief.  At the time this was [Teresa Deloach
+Reed](https://localwiki.org/oakland/Teresa_Deloach_Reed).
 
 ```{python}
 fire_chief = lprs[lprs['Plate'] == '1328354']
@@ -251,77 +159,60 @@ fire_chief
 ```
 
 ```{python}
-oak_map = make_oakland_map(zoom_start=12)
+oak_map = folium.Map(location=OAK_PD_COORDS,
+                     tiles='OpenStreetMap',
+                     zoom_start=12)
 for i, row in fire_chief.iterrows():
     folium.Marker(
         [row['Latitude'], row['Longitude']],
         popup=row['Timestamp'],
         icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
     ).add_to(oak_map)
+
+# City Hall
+folium.Marker(OAK_CITY_HALL_COORDS,
+              popup='City Hall',
+              icon=folium.Icon(color='lightgray', icon='info-sign')
+             ).add_to(oak_map)
+
 oak_map
 ```
 
-Hmm.  We can see a blue cluster in downtown Oakland, where the Fire Chief's car was seen on weekdays during business hours.  I bet we've found her office.  In fact, if you happen to know downtown Oakland, those are mostly clustered right near City Hall.  Also, her car was seen twice in northern Oakland on weekday evenings.  One can only speculate what that indicates.  Maybe dinner with a friend?  Or running errands?  Off to the scene of a fire?  Who knows.  And then the car has been seen once more, late at night on a weekend, in a residential area in the hills.  Her home address, maybe?
+Hmm.  We can see a blue cluster in downtown Oakland, where the Fire Chief's car
+was seen on weekdays during business hours.  I bet we've found her office.  As
+you can see from the 'City Hall' marker, those are mostly clustered right near
+City Hall.  Also, her car was seen twice in northern Oakland on weekday
+evenings.  One can only speculate what that indicates.  Maybe dinner with a
+friend?  Or running errands?  Off to the scene of a fire?  Who knows.  And then
+the car has been seen once more, late at night on a weekend, in a residential
+area in the hills.  Her home address, maybe?
 
 
 Let's look at another. This time, we'll make a function to display the map.
 
 ```{python}
-def map_plate(mp, plate):
-    sightings = lprs[lprs['Plate'] == plate]
-    for i, row in sightings.iterrows():
-        folium.Marker(
-            [row['Latitude'], row['Longitude']],
-            popup=row['Timestamp'],
-            icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
-        ).add_to(mp)
-    return mp
-
-oak_map = make_oakland_map()
-map_plate(oak_map, '5AJG153')
-```
-
-What can we tell from this?  Looks to me like this person lives on International Boulevard and 9th, roughly.  On weekdays they've seen in a variety of locations in west Oakland.  It's fun to imagine what this might indicate -- delivery person? taxi driver? someone running errands all over the place in west Oakland?
-
-We can look at another:
-
-```{python}
-oak_map = make_oakland_map(zoom_start=13)
-map_plate(oak_map, '6UZA652')
+someone = lprs[lprs['Plate'] == '6UZA652']
+oak_map = folium.Map(location=OAK_PD_COORDS,
+                     tiles='OpenStreetMap',
+                     zoom_start=12)
+for i, row in someone.iterrows():
+    folium.Marker(
+        [row['Latitude'], row['Longitude']],
+        popup=row['Timestamp'],
+        icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
+    ).add_to(oak_map)
 ```
 
 What can we learn from this map?  First, it's pretty easy to guess where this person lives: 16th and International, or pretty near there.  And then we can see them spending some nights and a weekend near Laney College.  Did they have an apartment there briefly?  A relationship with someone who lived there?
 
 
-Is anyone else getting a little bit creeped out about this?  I think I've had enough of looking at individual people's data.
+## So ... who should see these data?
 
 
-## Inference
+* Who should have access to these data?
+* Is there anything we can do to make these data less dangerous in terms of
+  privacy, while maintaining their use for monitoring police surveillance?
 
-
-As we can see, this kind of data can potentially reveal a fair bit about people.  Someone with access to the data can draw inferences.  Take a moment to think about what someone might be able to infer from this kind of data.
- 
-As we've seen here, it's not too hard to make a pretty good guess at roughly where some lives, from this kind of information: their car is probably parked near their home most nights.  Also, it will often be possible to guess where someone works: if they commute into work by car, then on weekdays during business hours, their car is probably parked near their office, so we'll see a clear cluster that indicates where they work.
-
-But it doesn't stop there.  If we have enough data, it might also be possible to get a sense of what they like to do during their downtime (do they spend time at the park?).  And in some cases the data might reveal that someone is in a relationship and spending nights at someone else's house.  That's arguably pretty sensitive stuff.
-
-This gets at one of the challenges with privacy.  Data that's collected for one purpose (fighting crime, or something like that) can potentially reveal a lot more.  It can allow the owner of the data to draw inferences -- sometimes about things that people would prefer to keep private.  And that means that, in a world of "big data", if we're not careful, privacy can be collateral damage.
-
-
-## Mitigation
-
-
-If we want to protect people's privacy, what can be done about this?  That's a lengthy subject.  But at risk of over-simplifying, there are a few simple strategies that data owners can take:
-
-1. Minimize the data they have.  Collect only what they need, and delete it after it's not needed.
-
-2. Control who has access to the sensitive data.  Perhaps only a handful of trusted insiders need access; if so, then one can lock down the data so only they have access to it.  One can also log all access, to deter misuse.
-
-3. Anonymize the data, so it can't be linked back to the individual who it is about.  Unfortunately, this is often harder than it sounds.
-
-4. Engage with stakeholders.  Provide transparency, to try to avoid people being taken by surprise.  Give individuals a way to see what data has been collected about them.  Give people a way to opt out and have their data be deleted, if they wish.  Engage in a discussion about values, and tell people what steps you are taking to protect them from unwanted consequences.
-
-This only scratches the surface of the subject.  My main goal in this lecture was to make you aware of privacy concerns, so that if you are ever a steward of a large data set, you can think about how to protect people's data and use it responsibly.
 
 ## Notes
 
