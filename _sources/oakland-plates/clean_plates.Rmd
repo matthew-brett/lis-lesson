@@ -117,7 +117,8 @@ Save to disk:
 
 ```{python}
 # Save without our uninformative row labels.
-all_lprs.to_csv('all_lprs.csv', index=None)
+# Compress to save space.
+all_lprs.to_csv('all_lprs.csv.gz', index=None)
 ```
 
 Now see [analyzing the plates](oakland_plates.Rmd).

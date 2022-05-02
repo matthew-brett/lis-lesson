@@ -19,8 +19,8 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -31,19 +31,19 @@
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
-    <script >let toggleHintShow = 'Click to show';</script>
-    <script >let toggleHintHide = 'Click to hide';</script>
-    <script >let toggleOpenOnPrint = 'true';</script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script >const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
@@ -186,24 +186,6 @@ title="Toggle navigation"
   </button>
   <div class="menu-dropdown__content">
     <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/matthew-brett/lis-lesson/main?urlpath=tree/oakland-plates/background.Rmd"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
       <li>
         <a href="https://lishub.odsti.org/hub/user-redirect/git-pull?repo=https%3A//github.com/matthew-brett/lis-lesson&urlpath=tree/lis-lesson/oakland-plates/background.Rmd&branch=main"
    class="headerbtn"
@@ -448,23 +430,8 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A map of Oakland and the Bay Area.</span>
 <span class="n">oak_map</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="mf">37.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.4</span><span class="p">],</span>
-<span class="n">tiles</span><span class="o">=</span><span class="s1">&#39;OpenStreetMap&#39;</span><span class="p">,</span>
-<span class="n">zoom_start</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c1"># Mark Police Department</span>
-<span class="n">OAK_PD_COORDS</span> <span class="o">=</span> <span class="p">(</span><span class="mf">37.79926910804871</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.27497697421084</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span><span class="n">OAK_PD_COORDS</span><span class="p">,</span>
-              <span class="n">popup</span><span class="o">=</span><span class="s1">&#39;Police Dept&#39;</span><span class="p">,</span>
-              <span class="n">icon</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;info-sign&#39;</span><span class="p">)</span>
-             <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">oak_map</span><span class="p">)</span>
-
-
-<span class="c1"># Mark City Hall</span>
-<span class="n">OAK_CITY_HALL_COORDS</span> <span class="o">=</span> <span class="p">(</span><span class="mf">37.805498393033204</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.2725551318817</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span><span class="n">OAK_CITY_HALL_COORDS</span><span class="p">,</span>
-              <span class="n">popup</span><span class="o">=</span><span class="s1">&#39;City Hall&#39;</span><span class="p">,</span>
-              <span class="n">icon</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;info-sign&#39;</span><span class="p">)</span>
-             <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">oak_map</span><span class="p">)</span>
+    <span class="n">tiles</span><span class="o">=</span><span class="s1">&#39;OpenStreetMap&#39;</span><span class="p">,</span>
+    <span class="n">zoom_start</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="c1"># Show the map</span>
 <span class="n">oak_map</span>
@@ -472,7 +439,69 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe src="about:blank" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" data-html=PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgCiAgICAgICAgPHNjcmlwdD4KICAgICAgICAgICAgTF9OT19UT1VDSCA9IGZhbHNlOwogICAgICAgICAgICBMX0RJU0FCTEVfM0QgPSBmYWxzZTsKICAgICAgICA8L3NjcmlwdD4KICAgIAogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjYuMC9kaXN0L2xlYWZsZXQuanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0xLjEyLjQubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9qcy9ib290c3RyYXAubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9MZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy8yLjAuMi9sZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjYuMC9kaXN0L2xlYWZsZXQuY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2Nzcy9ib290c3RyYXAubWluLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9mb250LWF3ZXNvbWUvNC42LjMvY3NzL2ZvbnQtYXdlc29tZS5taW4uY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2Nkbi5naXRoYWNrLmNvbS9weXRob24tdmlzdWFsaXphdGlvbi9mb2xpdW0vbWFzdGVyL2ZvbGl1bS90ZW1wbGF0ZXMvbGVhZmxldC5hd2Vzb21lLnJvdGF0ZS5jc3MiLz4KICAgIDxzdHlsZT5odG1sLCBib2R5IHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO3BhZGRpbmc6IDA7fTwvc3R5bGU+CiAgICA8c3R5bGU+I21hcCB7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7cmlnaHQ6MDtsZWZ0OjA7fTwvc3R5bGU+CiAgICAKICAgICAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwKICAgICAgICAgICAgICAgIGluaXRpYWwtc2NhbGU9MS4wLCBtYXhpbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyIgLz4KICAgICAgICAgICAgPHN0eWxlPgogICAgICAgICAgICAgICAgI21hcF9hMzg4OWIzOTllZmM0Mzg5ODAyMTFjNzFiYzRhNDRlOSB7CiAgICAgICAgICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgbGVmdDogMC4wJTsKICAgICAgICAgICAgICAgICAgICB0b3A6IDAuMCU7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIDwvc3R5bGU+CiAgICAgICAgCjwvaGVhZD4KPGJvZHk+ICAgIAogICAgCiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZvbGl1bS1tYXAiIGlkPSJtYXBfYTM4ODliMzk5ZWZjNDM4OTgwMjExYzcxYmM0YTQ0ZTkiID48L2Rpdj4KICAgICAgICAKPC9ib2R5Pgo8c2NyaXB0PiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFwX2EzODg5YjM5OWVmYzQzODk4MDIxMWM3MWJjNGE0NGU5ID0gTC5tYXAoCiAgICAgICAgICAgICAgICAibWFwX2EzODg5YjM5OWVmYzQzODk4MDIxMWM3MWJjNGE0NGU5IiwKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBjZW50ZXI6IFszNy44LCAtMTIyLjRdLAogICAgICAgICAgICAgICAgICAgIGNyczogTC5DUlMuRVBTRzM4NTcsCiAgICAgICAgICAgICAgICAgICAgem9vbTogMTAsCiAgICAgICAgICAgICAgICAgICAgem9vbUNvbnRyb2w6IHRydWUsCiAgICAgICAgICAgICAgICAgICAgcHJlZmVyQ2FudmFzOiBmYWxzZSwKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgKTsKCiAgICAgICAgICAgIAoKICAgICAgICAKICAgIAogICAgICAgICAgICB2YXIgdGlsZV9sYXllcl8yNGY2YjE5NTE0YWM0YWMyOTg3NTlkODlkZDg3ODliYiA9IEwudGlsZUxheWVyKAogICAgICAgICAgICAgICAgImh0dHBzOi8ve3N9LnRpbGUub3BlbnN0cmVldG1hcC5vcmcve3p9L3t4fS97eX0ucG5nIiwKICAgICAgICAgICAgICAgIHsiYXR0cmlidXRpb24iOiAiRGF0YSBieSBcdTAwMjZjb3B5OyBcdTAwM2NhIGhyZWY9XCJodHRwOi8vb3BlbnN0cmVldG1hcC5vcmdcIlx1MDAzZU9wZW5TdHJlZXRNYXBcdTAwM2MvYVx1MDAzZSwgdW5kZXIgXHUwMDNjYSBocmVmPVwiaHR0cDovL3d3dy5vcGVuc3RyZWV0bWFwLm9yZy9jb3B5cmlnaHRcIlx1MDAzZU9EYkxcdTAwM2MvYVx1MDAzZS4iLCAiZGV0ZWN0UmV0aW5hIjogZmFsc2UsICJtYXhOYXRpdmVab29tIjogMTgsICJtYXhab29tIjogMTgsICJtaW5ab29tIjogMCwgIm5vV3JhcCI6IGZhbHNlLCAib3BhY2l0eSI6IDEsICJzdWJkb21haW5zIjogImFiYyIsICJ0bXMiOiBmYWxzZX0KICAgICAgICAgICAgKS5hZGRUbyhtYXBfYTM4ODliMzk5ZWZjNDM4OTgwMjExYzcxYmM0YTQ0ZTkpOwogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciBtYXJrZXJfNzBlMGUyNTU2MTY3NGRhMjgyMTQ4ZmM4ZmMyMjIyNjYgPSBMLm1hcmtlcigKICAgICAgICAgICAgICAgIFszNy43OTkyNjkxMDgwNDg3MSwgLTEyMi4yNzQ5NzY5NzQyMTA4NF0sCiAgICAgICAgICAgICAgICB7fQogICAgICAgICAgICApLmFkZFRvKG1hcF9hMzg4OWIzOTllZmM0Mzg5ODAyMTFjNzFiYzRhNDRlOSk7CiAgICAgICAgCiAgICAKICAgICAgICAgICAgdmFyIGljb25fYTg1MGY4NDg0YjcyNDk3MDg2NDcxODExMzlkM2VlOGIgPSBMLkF3ZXNvbWVNYXJrZXJzLmljb24oCiAgICAgICAgICAgICAgICB7ImV4dHJhQ2xhc3NlcyI6ICJmYS1yb3RhdGUtMCIsICJpY29uIjogImluZm8tc2lnbiIsICJpY29uQ29sb3IiOiAid2hpdGUiLCAibWFya2VyQ29sb3IiOiAibGlnaHRncmF5IiwgInByZWZpeCI6ICJnbHlwaGljb24ifQogICAgICAgICAgICApOwogICAgICAgICAgICBtYXJrZXJfNzBlMGUyNTU2MTY3NGRhMjgyMTQ4ZmM4ZmMyMjIyNjYuc2V0SWNvbihpY29uX2E4NTBmODQ4NGI3MjQ5NzA4NjQ3MTgxMTM5ZDNlZThiKTsKICAgICAgICAKICAgIAogICAgICAgIHZhciBwb3B1cF9jZTE3YmRmYTQwY2U0MmQ4OGE2MWJmNGVkZmIwMDc3YyA9IEwucG9wdXAoeyJtYXhXaWR0aCI6ICIxMDAlIn0pOwoKICAgICAgICAKICAgICAgICAgICAgdmFyIGh0bWxfZTQ5ZmQ4MDBhNDkyNDFiMDg4ZmNkNzY4MzAzNzU4OWIgPSAkKGA8ZGl2IGlkPSJodG1sX2U0OWZkODAwYTQ5MjQxYjA4OGZjZDc2ODMwMzc1ODliIiBzdHlsZT0id2lkdGg6IDEwMC4wJTsgaGVpZ2h0OiAxMDAuMCU7Ij5Qb2xpY2UgRGVwdDwvZGl2PmApWzBdOwogICAgICAgICAgICBwb3B1cF9jZTE3YmRmYTQwY2U0MmQ4OGE2MWJmNGVkZmIwMDc3Yy5zZXRDb250ZW50KGh0bWxfZTQ5ZmQ4MDBhNDkyNDFiMDg4ZmNkNzY4MzAzNzU4OWIpOwogICAgICAgIAoKICAgICAgICBtYXJrZXJfNzBlMGUyNTU2MTY3NGRhMjgyMTQ4ZmM4ZmMyMjIyNjYuYmluZFBvcHVwKHBvcHVwX2NlMTdiZGZhNDBjZTQyZDg4YTYxYmY0ZWRmYjAwNzdjKQogICAgICAgIDsKCiAgICAgICAgCiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFya2VyXzBlMjQ1N2Y0NzlmNzQ2YWU4ZDliMzA1NDBkMzRjNWQ1ID0gTC5tYXJrZXIoCiAgICAgICAgICAgICAgICBbMzcuODA1NDk4MzkzMDMzMjA0LCAtMTIyLjI3MjU1NTEzMTg4MTddLAogICAgICAgICAgICAgICAge30KICAgICAgICAgICAgKS5hZGRUbyhtYXBfYTM4ODliMzk5ZWZjNDM4OTgwMjExYzcxYmM0YTQ0ZTkpOwogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciBpY29uXzJkMGU3N2Y5NmQ5NTQ1M2VhZjBiMWExMGNhZTkyYzc3ID0gTC5Bd2Vzb21lTWFya2Vycy5pY29uKAogICAgICAgICAgICAgICAgeyJleHRyYUNsYXNzZXMiOiAiZmEtcm90YXRlLTAiLCAiaWNvbiI6ICJpbmZvLXNpZ24iLCAiaWNvbkNvbG9yIjogIndoaXRlIiwgIm1hcmtlckNvbG9yIjogImxpZ2h0Z3JheSIsICJwcmVmaXgiOiAiZ2x5cGhpY29uIn0KICAgICAgICAgICAgKTsKICAgICAgICAgICAgbWFya2VyXzBlMjQ1N2Y0NzlmNzQ2YWU4ZDliMzA1NDBkMzRjNWQ1LnNldEljb24oaWNvbl8yZDBlNzdmOTZkOTU0NTNlYWYwYjFhMTBjYWU5MmM3Nyk7CiAgICAgICAgCiAgICAKICAgICAgICB2YXIgcG9wdXBfMjc3ZDgzYjM5OTVhNDNlY2EzN2NkMjczYWJmYWI2ODUgPSBMLnBvcHVwKHsibWF4V2lkdGgiOiAiMTAwJSJ9KTsKCiAgICAgICAgCiAgICAgICAgICAgIHZhciBodG1sXzM2MmY3OGJmMWViYzRlZDk4MGQ3MGI5ZDUwOWFmYzJkID0gJChgPGRpdiBpZD0iaHRtbF8zNjJmNzhiZjFlYmM0ZWQ5ODBkNzBiOWQ1MDlhZmMyZCIgc3R5bGU9IndpZHRoOiAxMDAuMCU7IGhlaWdodDogMTAwLjAlOyI+Q2l0eSBIYWxsPC9kaXY+YClbMF07CiAgICAgICAgICAgIHBvcHVwXzI3N2Q4M2IzOTk1YTQzZWNhMzdjZDI3M2FiZmFiNjg1LnNldENvbnRlbnQoaHRtbF8zNjJmNzhiZjFlYmM0ZWQ5ODBkNzBiOWQ1MDlhZmMyZCk7CiAgICAgICAgCgogICAgICAgIG1hcmtlcl8wZTI0NTdmNDc5Zjc0NmFlOGQ5YjMwNTQwZDM0YzVkNS5iaW5kUG9wdXAocG9wdXBfMjc3ZDgzYjM5OTVhNDNlY2EzN2NkMjczYWJmYWI2ODUpCiAgICAgICAgOwoKICAgICAgICAKICAgIAo8L3NjcmlwdD4= onload="this.contentDocument.open();this.contentDocument.write(atob(this.getAttribute('data-html')));this.contentDocument.close();" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
+<div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;head&gt;    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-1.12.4.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_3903d640ff1e210e8543ca54e5ae6a09 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            &lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;    
+
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_3903d640ff1e210e8543ca54e5ae6a09&quot; &gt;&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;script&gt;    
+
+            var map_3903d640ff1e210e8543ca54e5ae6a09 = L.map(
+                &quot;map_3903d640ff1e210e8543ca54e5ae6a09&quot;,
+                {
+                    center: [37.8, -122.4],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 10,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+
+
+
+
+            var tile_layer_022f095a6bac36d467f8439489b029fa = L.tileLayer(
+                &quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;Data by \u0026copy; \u003ca href=\&quot;http://openstreetmap.org\&quot;\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eODbL\u003c/a\u003e.&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 18, &quot;maxZoom&quot;: 18, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            ).addTo(map_3903d640ff1e210e8543ca54e5ae6a09);
+
+&lt;/script&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
 </div>
 </div>
 <div class="section" id="automatic-license-plate-recognition">
@@ -508,16 +537,31 @@ surveillance techniques and equipment.</p>
 data</a>.</p>
 <p>71 agencies accessed the license plate database between February and March
 2021.  Apart from police departments and sheriffs’ offices, these included:</p>
-<hr class="docutils" />
-<p>Agency                                  Count</p>
-<hr class="docutils" />
-<p>FBI                                     72
-US Dept Agriculture Inspector General   51
-National Park Service                   18
-California Dept of Motor Vehicles       14
-US Postal Inspection Service            4</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Agency</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FBI</p></td>
+<td><p>72</p></td>
+</tr>
+<tr class="row-odd"><td><p>US Dept Agriculture Inspector General</p></td>
+<td><p>51</p></td>
+</tr>
+<tr class="row-even"><td><p>National Park Service</p></td>
+<td><p>18</p></td>
+</tr>
+<tr class="row-odd"><td><p>California Dept of Motor Vehicles</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-even"><td><p>US Postal Inspection Service</p></td>
+<td><p>4</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<hr class="docutils" />
 <div class="section" id="who-should-see-these-data">
 <h2>Who should see these data?<a class="headerlink" href="#who-should-see-these-data" title="Permalink to this headline">#</a></h2>
 <p>The <a class="reference external" href="https://www.eff.org">Electronic Frontier Foundation</a> (EFF) has taken an

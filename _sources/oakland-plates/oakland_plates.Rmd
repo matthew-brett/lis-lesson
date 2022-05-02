@@ -50,7 +50,7 @@ you run the cell below.
 ```{python}
 # Load all license plate data.
 # This will probably take about 30 seconds, depending on your machine.
-lprs = pd.read_csv('all_lprs.csv', parse_dates=['Timestamp'])
+lprs = pd.read_csv('all_lprs.csv.gz', parse_dates=['Timestamp'])
 lprs
 ```
 
@@ -201,6 +201,7 @@ for i, row in someone.iterrows():
         popup=row['Timestamp'],
         icon=folium.Icon(color=row['Color'], icon='car', prefix='fa')
     ).add_to(oak_map)
+oak_map
 ```
 
 What can we learn from this map?  First, it's pretty easy to guess where this person lives: 16th and International, or pretty near there.  And then we can see them spending some nights and a weekend near Laney College.  Did they have an apartment there briefly?  A relationship with someone who lived there?
