@@ -28,23 +28,8 @@ Oakland is just across the Bay from San Francisco, and a few miles from Berkeley
 ```{python}
 # A map of Oakland and the Bay Area.
 oak_map = folium.Map(location=[37.8, -122.4],
-tiles='OpenStreetMap',
-zoom_start=10)
-
-# Mark Police Department
-OAK_PD_COORDS = (37.79926910804871, -122.27497697421084)
-folium.Marker(OAK_PD_COORDS,
-              popup='Police Dept',
-              icon=folium.Icon(color='lightgray', icon='info-sign')
-             ).add_to(oak_map)
-
-
-# Mark City Hall
-OAK_CITY_HALL_COORDS = (37.805498393033204, -122.2725551318817)
-folium.Marker(OAK_CITY_HALL_COORDS,
-              popup='City Hall',
-              icon=folium.Icon(color='lightgray', icon='info-sign')
-             ).add_to(oak_map)
+    tiles='OpenStreetMap',
+    zoom_start=10)
 
 # Show the map
 oak_map
@@ -89,15 +74,13 @@ data](https://oaklandprivacy.org/whos-looking-at-your-license-plate-data).
 71 agencies accessed the license plate database between February and March
 2021.  Apart from police departments and sheriffs' offices, these included:
 
-  -------------------------------         -----------
-  Agency                                  Count
-  -------------------------------         -----------
-  FBI                                     72
-  US Dept Agriculture Inspector General   51
-  National Park Service                   18
-  California Dept of Motor Vehicles       14
-  US Postal Inspection Service            4
-  -------------------------------         -----------
+| Agency                                | Count |
+|---------------------------------------|-------|
+| FBI                                   | 72 |
+| US Dept Agriculture Inspector General | 51 |
+| National Park Service                 | 18 |
+| California Dept of Motor Vehicles     | 14 |
+| US Postal Inspection Service          | 4  |
 
 ## Who should see these data?
 
