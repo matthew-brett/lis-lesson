@@ -19,5 +19,4 @@ The lesson emphasizes several key things about the practice of data science.
   imperfections](https://github.com/data-8/textbook/issues/36).  We really are
   standing on the shoulders of giants.
 
-Now see the [Oakland license plate](oakland-plates/oakland_plates.Rmd)
-notebook.
+Now see the [backstory](oakland-plates/background.Rmd).
