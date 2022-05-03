@@ -34,10 +34,8 @@ repository:
 launch_buttons:
   # The interface interactive links will activate ["classic", "jupyterlab"]
   notebook_interface: "classic"
-  # Turn off Binderhub
-  binderhub_url: ""
   # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
-  jupyterhub_url: "https://lishub.odsti.org"
+  # jupyterhub_url: "https://lishub.odsti.org"
 
 sphinx:
   config:
