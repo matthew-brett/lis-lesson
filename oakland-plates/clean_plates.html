@@ -51,8 +51,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Oakland license plates" href="oakland_plates.html" />
-    <link rel="prev" title="Background" href="background.html" />
+    <link rel="next" title="Analyzing the Oakland license plates" href="oakland_plates.html" />
+    <link rel="prev" title="Automatic License Plate Recognition in Oakland" href="background.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,7 +115,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="background.html">
-   Background
+   Automatic License Plate Recognition in Oakland
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -125,7 +125,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="oakland_plates.html">
-   Oakland license plates
+   Analyzing the Oakland license plates
   </a>
  </li>
 </ul>
@@ -379,6 +379,8 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listing files and other utilities.</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Converting strings to timestamp values.</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="c1"># Getting filenames with wildcards like &quot;*&quot;</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
@@ -394,9 +396,10 @@ title="Print to PDF"
 the Oakland public records site.</p>
 <p>I’ve downloaded all the files I could find at the <a class="reference external" href="https://data.oaklandca.gov/">Oaklandca.gov data
 website</a> with <a class="reference external" href="https://data.oaklandca.gov/browse?q=license%20plate">the search “license
-plate”</a>. I found 15
-files, but two contained data that were already available in other files. The
-remaining 13 files are in the <code class="docutils literal notranslate"><span class="pre">./downloads</span></code> directory.</p>
+plate”</a>. I
+found 15 files, but two contained data that were already
+available in other files. The remaining 13 files are in the
+<code class="docutils literal notranslate"><span class="pre">./downloads</span></code> directory.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the filenames of the downloaded CSV files.</span>
@@ -423,12 +426,12 @@ remaining 13 files are in the <code class="docutils literal notranslate"><span c
 </div>
 </div>
 </div>
-<p>We load all the CSV files as Pandas data frames.  Notice the slight
-differences in the column names and number of columns in the CSV files.</p>
+<p>We load all the CSV files as Pandas data frames.  Notice the
+slight differences in the column names and number of columns in
+the CSV files.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load CSV files as data frames.</span>
-<span class="n">all_data_frames</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_data_frames</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">csv_fname</span> <span class="ow">in</span> <span class="n">csv_fnames</span><span class="p">:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_fname</span><span class="p">)</span>
     <span class="n">all_data_frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -436,12 +439,12 @@ differences in the column names and number of columns in the CSV files.</p>
 </div>
 </div>
 </div>
-<p>We need to do some cleanup.  There is a data frame with lower case names,
-where the rest have capitalized names.  Some data frames have extra columns we
-are not interested in.</p>
+<p>We need to do some cleanup.  There is a data frame with lower
+case names, where the rest have capitalized names.  Some data
+frames have extra columns we are not interested in.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean up the loaded data frames</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean up columns from the loaded data frames.</span>
 <span class="n">fixed_data_frames</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">desired_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red_vrm&#39;</span><span class="p">,</span> <span class="s1">&#39;red_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;location 1&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">all_data_frames</span><span class="p">:</span>
@@ -453,12 +456,11 @@ are not interested in.</p>
 </div>
 </div>
 </div>
-<p>Now the data frames are clean, concatenate them into one data frame, and drop any duplicate rows.</p>
+<p>Now the data frames are clean, concatenate them into one data
+frame, and drop any duplicate rows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Concatenate the data frames</span>
-<span class="n">lprs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">fixed_data_frames</span><span class="p">)</span>
-<span class="c1"># Drop duplicate rows</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lprs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">fixed_data_frames</span><span class="p">)</span>
 <span class="n">lprs</span> <span class="o">=</span> <span class="n">lprs</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 <span class="n">lprs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -536,9 +538,9 @@ are not interested in.</p>
 </div>
 </div>
 </div>
-<p>In order to use these data on maps, we need to convert the text here into two
-columns, each having floating point values, one for “Longitude” and the other
-for “Latitude”.</p>
+<p>In order to use these data on maps, we need to convert the text
+here into two columns, each having floating point values, one
+for “Longitude” and the other for “Latitude”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Drop the parentheses around the strings.</span>
@@ -680,7 +682,9 @@ for “Latitude”.</p>
 <p>Rename the first two columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_lprs</span> <span class="o">=</span> <span class="n">all_lprs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;red_vrm&#39;</span><span class="p">:</span> <span class="s1">&#39;Plate&#39;</span><span class="p">,</span> <span class="s1">&#39;red_timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;Timestamp&#39;</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_lprs</span> <span class="o">=</span> <span class="n">all_lprs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;red_vrm&#39;</span><span class="p">:</span> <span class="s1">&#39;Plate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;red_timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;Timestamp&#39;</span><span class="p">})</span>
 <span class="n">all_lprs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -750,6 +754,100 @@ for “Latitude”.</p>
 </table>
 </div></div></div>
 </div>
+<p>We will later want to distinguish between license plate reads
+that are seen during the daytime (on a weekday), vs the evening
+(on a weekday), vs on a weekend.  So we’ll color-code the
+markers. To do this, we’ll write some Python code to analyze
+the ‘Timestamp’ and choose an appropriate color.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_color</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">&#39;%m/</span><span class="si">%d</span><span class="s1">/%Y %I:%M:%S %p&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;green&#39;</span> <span class="c1"># Weekend</span>
+    <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">hour</span> <span class="o">&lt;=</span> <span class="mi">17</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;blue&#39;</span> <span class="c1"># Weekday daytime</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;red&#39;</span> <span class="c1"># Weekday evening</span>
+
+
+<span class="c1"># Apply the function to the Timestamp column, make new column.</span>
+<span class="n">all_lprs</span><span class="p">[</span><span class="s1">&#39;Color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_lprs</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_color</span><span class="p">)</span>
+<span class="n">all_lprs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Plate</th>
+      <th>Timestamp</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Color</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6HVB598</td>
+      <td>11/20/2012 01:34:00 PM</td>
+      <td>37.687040</td>
+      <td>-122.134973</td>
+      <td>blue</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5WVD836</td>
+      <td>11/20/2012 01:34:00 PM</td>
+      <td>37.687030</td>
+      <td>-122.134973</td>
+      <td>blue</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6B57142</td>
+      <td>11/20/2012 01:34:00 PM</td>
+      <td>37.686998</td>
+      <td>-122.134975</td>
+      <td>blue</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4FSH999</td>
+      <td>11/20/2012 01:34:00 PM</td>
+      <td>37.795501</td>
+      <td>-122.206155</td>
+      <td>blue</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6B57142</td>
+      <td>11/20/2012 01:34:00 PM</td>
+      <td>37.686898</td>
+      <td>-122.135020</td>
+      <td>blue</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>Save to disk:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -795,13 +893,13 @@ for “Latitude”.</p>
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Background</p>
+            <p class="prev-next-title">Automatic License Plate Recognition in Oakland</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="oakland_plates.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Oakland license plates</p>
+        <p class="prev-next-title">Analyzing the Oakland license plates</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
