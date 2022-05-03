@@ -26,6 +26,17 @@ import folium
 See [background](background.Rmd) for the background to this notebook, and [clean plates](clean_plates.Rmd) for the simple cleaning we did to the raw data.
 
 
+## Based on
+
+
+This notebook is an edited version of [this copy of a Privacy
+lecture](https://github.com/data-8/textbook/blob/64b20f0/notebooks/Privacy.ipynb),
+by [David Wagner](https://people.eecs.berkeley.edu/~daw).  The overall license
+for the materials was (at the time)
+[CC-By-NC](https://github.com/data-8/textbook/blob/64b20f0/README.md).  Many
+thanks, as ever, for sharing.
+
+
 ## The data
 
 
@@ -42,7 +53,7 @@ lprs
 Notice that we have about 2.7 million license plate reads.
 
 Let's start by seeing what can be learned about someone, using
-this data — assuming you know their license plate
+this data — assuming you know their license plate.
 
 
 ## Searching for the Fire Chief
@@ -50,7 +61,7 @@ this data — assuming you know their license plate
 
 You can imagine various ways we could get someone's license
 plate, but here is an easy one.  This is a car that the city
-issues to the Fire Chief.  At the time this was [Teresa Deloach
+issues to the Fire Chief.  At the time the Fire Chief was [Teresa Deloach
 Reed](https://localwiki.org/oakland/Teresa_Deloach_Reed).
 
 ```{python}
