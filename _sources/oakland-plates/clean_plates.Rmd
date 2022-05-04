@@ -93,7 +93,7 @@ lprs['location 1'].iloc[0]
 
 In order to use these data on maps, we need to convert the text
 here into two columns, each having floating point values, one
-for "Longitude" and the other for "Latitude".
+for "Latitude" and the other for "Longitude".
 
 ```{python}
 # Drop the parentheses around the strings.
