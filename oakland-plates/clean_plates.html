@@ -426,9 +426,7 @@ available in other files. The remaining 13 files are in the
 </div>
 </div>
 </div>
-<p>We load all the CSV files as Pandas data frames.  Notice the
-slight differences in the column names and number of columns in
-the CSV files.</p>
+<p>We load all the CSV files as Pandas data frames.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_data_frames</span> <span class="o">=</span> <span class="p">[]</span>
@@ -439,9 +437,33 @@ the CSV files.</p>
 </div>
 </div>
 </div>
-<p>We need to do some cleanup.  There is a data frame with lower
-case names, where the rest have capitalized names.  Some data
-frames have extra columns we are not interested in.</p>
+<p>Notice the slight differences in the column names and the different number of columns in the loaded data frames.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">all_data_frames</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Column names:&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, src_Description, ste_Name, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, ste_Name, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, src_Description, Location 1
+Column names: red_VRM, red_Timestamp, ste_Name, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_vrm, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, Location 1
+Column names: red_VRM, red_Timestamp, ste_Name, Location 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to do some cleanup.  One data frame has a lower case column name <code class="docutils literal notranslate"><span class="pre">red_vrm</span></code>, where the rest have capitalized names.  Some data frames have extra columns we are not interested in.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean up columns from the loaded data frames.</span>
