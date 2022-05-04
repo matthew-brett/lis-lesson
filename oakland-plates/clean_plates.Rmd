@@ -47,9 +47,7 @@ csv_fnames = glob('downloads/*.csv')
 csv_fnames
 ```
 
-We load all the CSV files as Pandas data frames.  Notice the
-slight differences in the column names and number of columns in
-the CSV files.
+We load all the CSV files as Pandas data frames.
 
 ```{python}
 all_data_frames = []
@@ -58,9 +56,14 @@ for csv_fname in csv_fnames:
     all_data_frames.append(df)
 ```
 
-We need to do some cleanup.  There is a data frame with lower
-case names, where the rest have capitalized names.  Some data
-frames have extra columns we are not interested in.
+Notice the slight differences in the column names and the different number of columns in the loaded data frames.
+
+```{python}
+for df in all_data_frames:
+    print('Column names:', ', '.join(list(df)))
+```
+
+We need to do some cleanup.  One data frame has a lower case column name `red_vrm`, where the rest have capitalized names.  Some data frames have extra columns we are not interested in.
 
 ```{python}
 # Clean up columns from the loaded data frames.
