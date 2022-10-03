@@ -123,5 +123,11 @@ But — what do you think?  Who should be able to see the data?  Should the data
 
 As usual with data science, it becomes easier to think about the consequences of these data and data access, with a real example to work with.
 
-So, we will get the Oakland data and do some analysis. See [cleaning the
-data](clean_plates.Rmd).
+So, we will get the Oakland data, clean it up, and do some analysis. For the
+cleaning step, see [cleaning the data](clean_plates.Rmd).  You don't need to
+run the cleaning step, we have already done this and saved the cleaned data. In
+fact, the cleaning step takes a fairly large amount of memory, and systems
+without much memory, it may crash.  At least the cleaning notebook will show
+what cleaning we did.
+
+Now see [analyzing the plates](oakland_plates.Rmd).

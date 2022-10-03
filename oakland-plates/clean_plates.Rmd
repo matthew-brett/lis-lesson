@@ -16,6 +16,9 @@ jupyter:
 
 # Cleaning the automatic license plate reader data
 
+**Warning**: do not run this notebook unless your system has around 2GB of
+memory free.
+
 ```{python}
 # Listing files and other utilities.
 import os
